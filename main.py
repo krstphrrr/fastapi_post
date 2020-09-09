@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Depends
+from fastapi.encoders import jsonable_encoder
 import os, os.path
 
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, constr, parse_obj_as
 from typing import List
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import Session
@@ -9,6 +10,7 @@ from utils import crud, models, schemas
 from utils.database import SessionLocal, engine
 import pickle
 import base64
+from pandas.io.json import json_normalize
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -42,11 +44,17 @@ async def root():
 
 @app.post("/api/v0/add-new")
 def respond(data:List[Test]=None):
-
-    df = pd.DataFrame(data)
-    print(type(df))
-    print(df.loc[:5,:])
-    df.to_csv(os.path.join(output_path,"test.csv"))
+    # m = [i for i in data]
+    m = pd.DataFrame(jsonable_encoder(data))
+    # m = parse_obj_as(Test, data[0])
+    print(m)
+    # json_comp = jsonable_encoder(data)
+    # #
+    # df = pd.read_json(data[0], orient='records')
+    # print(df)
+    # print(type(df))
+    # print(df.loc[:5,:])
+    # df.to_csv(os.path.join(output_path,"test.csv"))
     # return data
     # res_pickled = pickle_dump.decode('utf-8')
     # data_dict = pd.DataFrame(data.dict())
