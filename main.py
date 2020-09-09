@@ -15,6 +15,7 @@ dd
 app = FastAPI()
 txt_path = r"C:\Users\kbonefont\Desktop\201143010401R1_flux.txt"
 
+
 # Dependency
 def get_db():
     db = SessionLocal()
