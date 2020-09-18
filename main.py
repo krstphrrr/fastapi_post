@@ -27,7 +27,19 @@ def root():
 
 @app.post("/met")
 def post_met():
-    return {"message":"met data uploader"}
+    """
+    will receive a jsonified .dat file from a scraper api
+    "List" model cannot be used, but..also
+    how can I keep columns flexible ?
+    - maybe create an on the fly table schema?
+
+    needs to:
+    1. check timestamp to not ingest dups
+    2. add any column present on pg table, not present on current df
+
+    """
+    m
+    # return {"message":"met data uploader"}
 
 @app.post("/nri")
 def post_nri():
